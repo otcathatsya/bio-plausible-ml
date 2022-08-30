@@ -4,11 +4,11 @@ Contains experiments conducted and experimental code for MSc dissertation "On th
 
 `/lstm-snn-comparison`: time series experiment for SNN conversion, [SNN Toolbox](https://github.com/NeuromorphicProcessorProject/snn_toolbox) & Keras
 
-`bindsnet-snn`: SNN on MNIST using a Diehl & Cook network implemented in [BindsNET](https://github.com/BindsNET/bindsnet)
+`/bindsnet-snn`: SNN on MNIST using a Diehl & Cook network implemented in [BindsNET](https://github.com/BindsNET/bindsnet)
 
-`pc-backprop`: contains a comparison of CNN backpropagation training with pred. coding steps with [Torch2PC](https://github.com/RobertRosenbaum/Torch2PC) & PyTorch
+`/pc-backprop`: contains a comparison of CNN backpropagation training with pred. coding steps with [Torch2PC](https://github.com/RobertRosenbaum/Torch2PC) & PyTorch
 
-`pc-reservoir`: contains an (unused) single-module python adaption of (Yonemura & Katori) [[1]](#1).
+`/pc-reservoir`: contains an (unused) single-module python adaption of (Yonemura & Katori) [[1]](#1).
 
 ## References
 <a id="1">[1]</a>
