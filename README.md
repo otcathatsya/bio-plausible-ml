@@ -1,4 +1,4 @@
-Contains a single-module [python adaption](pc-rc-model.py) of (Yonemura & Katori) [[1]](#1).
+Contains a single-module [python adaption](paper-pcrc.py) of (Yonemura & Katori) [[1]](#1).
 
 ## References
 <a id="1">[1]</a>

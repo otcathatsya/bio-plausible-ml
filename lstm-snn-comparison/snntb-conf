@@ -1,0 +1,22 @@
+[paths]
+dataset_path = %(path_wd)s
+filename_ann = cnn
+
+[simulation]
+simulator: INI
+duration: 50
+dt: 1
+num_to_test: 64
+batch_size = 16
+
+[output]
+log_vars = {}
+plot_vars = {}
+
+[tools]
+evaluate_ann = True
+parse = True
+normalize = False
+convert = True
+simulate = True
+serialise_only = False

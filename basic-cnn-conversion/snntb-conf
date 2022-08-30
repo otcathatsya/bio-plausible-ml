@@ -1,0 +1,13 @@
+[paths]
+dataset_path = %(path_wd)s
+filename_ann = mnist-cnn
+
+[simulation]
+simulator: INI
+duration: 30
+dt: 1
+num_to_test: 300
+batch_size = 300
+
+[normalization]
+percentile = 99.9

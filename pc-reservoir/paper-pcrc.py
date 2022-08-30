@@ -1,14 +1,13 @@
-import math
+# CURRENTLY UNUSED
 
-import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 
-# simulation time
-max_time = 50
-# time delta
-td = 1
+max_time = 10
+# time-step
+td = 0.2
 # matrix number of elements
-nx = 300
+nx = 20
 ny = 1
 # recurrent conn matrix
 w_rec = np.zeros((nx, nx))
@@ -32,70 +31,76 @@ alpha_back = 0.4
 # error driven mode (1/0)
 alpha_e = 1
 # scaling parameter for initialization of p
-alpha_f = 1
+alpha_f = 0.5
 # time constant
 tau = 1
+# membrane potential col vector
+m = np.random.rand(nx, 1)
+# neuron activity col vector
+r = np.tanh(beta_m * m)
 
 
 # helper method to initialize sparse connections in zeros matrix
+
+
 def initialize_sparse(target, percentage, substitute):
     sparse_indices = np.random.choice(target.size, size=int(percentage * target.size), replace=False)
     np.put(target, sparse_indices, v=substitute)
-
-
-def input_gen(x):
-    return math.sin(x) + 5
 
 
 initialize_sparse(w_rec, beta_rec, 1)
 initialize_sparse(w_back, beta_back, 1)
 initialize_sparse(w_e, beta_e, 1)
 
+
+def input_gen(x):
+    return 2 * x
+
+
+# discretized model function
+gen_model = input_gen(np.r_[0:max_time / td])
+
 # calculate spectral radius of sparsely connected recurrent matrix
-spectral_radius = np.max(abs(np.linalg.eigvals(w_rec)))
+spectral_radius = max(abs(np.linalg.eigvals(w_rec)))
 print("spectral radius", spectral_radius)
 
 # incorporate strength of connections
-w_rec = alpha_rec * w_rec / spectral_radius
+w_rec = (alpha_rec * w_rec) / spectral_radius
 w_back = alpha_back * w_back
 w_e = alpha_e * w_e
 
-# discretized model function
-generative_model = []
-for x in range(0, max_time):
-    generative_model += [input_gen(x)]
-generative_model = np.asarray(generative_model)
+error_hist = []
 
-# membrane potential col vector
-m = np.random.rand(nx, 1)
-# neuron activity col vector
-r = np.random.rand(nx, 1)
-# prediction col vector
-y = np.zeros((ny, 1))
-# error col vector
-e = np.random.rand(ny, 1)
 # initialize P(0) for calculation of Wout via FORCE
 p = np.identity(nx) / alpha_f
 
-res = []
-
-for n in range(0, max_time):
-    print("n @", n)
-    y = np.maximum(np.zeros((ny, 1)), w_out @ r)
-    e = generative_model[n] - y
+# FORCE
+for d in gen_model:
+    y = np.maximum(0, w_out @ r)
+    e = d - y
 
     v = p @ r
-    p = p - ((v @ np.transpose(v)) / (1 + np.transpose(v) @ r))
-    w_out = w_out - ((e @ np.transpose(v)) / (1 + np.transpose(v) @ r))
+    p = p - ((v @ v.T) / (1 + v.T @ r))
 
-    m = m + (1 / tau) * (-m + w_rec @ r + w_back @ y
-                         + alpha_e * (w_e @ e))
+    w_out = w_out - ((e @ v.T) / (1 + v.T @ r))
+
+# FREEZE
+
+for d in gen_model:
+    y = np.maximum(0, w_out @ r)
+    e = d - y
+
+    v = p @ r
+    p = p - ((v @ v.T) / (1 + v.T @ r))
+
+    w_out = w_out - ((e @ v.T) / (1 + v.T @ r))
+
+    m = m + 1 / tau * (-m + w_rec @ r + w_back @ y + alpha_e * w_e @ e)
     r = np.tanh(beta_m * m)
 
-    res += [y[0]]
+    error_hist += [e[0]]
 
-plt.plot(res)
-plt.plot(generative_model)
-plt.title('Approximation')
+plt.plot(error_hist)
+plt.title('Error History')
 plt.draw()
 plt.show()
