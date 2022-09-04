@@ -1,13 +1,13 @@
 from time import time as tm
 
 import numpy as np
+import torch
 import torchvision
 from matplotlib import pyplot as plt
+from torch import nn
 from torchvision.datasets import CIFAR10
 
-import torch
 from Torch2PC import TorchSeq2PC as t2PC
-from torch import nn
 
 torch.manual_seed(0)
 

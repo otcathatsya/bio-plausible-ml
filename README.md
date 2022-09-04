@@ -10,6 +10,7 @@ Contains experiments conducted and experimental code for MSc dissertation "On th
 
 `/pc-reservoir`: contains an (unused) single-module python adaption of (Yonemura & Katori) [[1]](#1).
 
+`/lif-reservoir`: RC with LIF reservoir generation on MNIST + showcase
 ## References
 <a id="1">[1]</a>
 Y. Yonemura and Y. Katori. 

@@ -98,6 +98,8 @@ for epoch in range(epochs):
 
     train_iter = iter(train_loader)
     for step in range(train_len):
+        if step * batch_size > train_len:
+            break
         data = next(train_iter)
         X = data["encoded_image"].to(device)
         y = data["label"].to(device)
@@ -124,7 +126,6 @@ for epoch in range(epochs):
 
         labels += y.tolist()
 
-        # again, very strange convention for input dict
         network.run(inputs={"X": X}, time=sim_time, input_time_dim=1)
 
         # Add to spikes recording.
@@ -138,7 +139,7 @@ for epoch in range(epochs):
         network.reset_state_variables()
 
 tTrain = tm() - t1_train
-print("Training completed in %ss", tTrain)
+print("Training completed in %ss" % tTrain)
 
 accuracy_hist_test = []
 # toggle off learning
@@ -147,6 +148,8 @@ t1_test = tm()
 
 test_iter = iter(test_loader)
 for step in range(test_len):
+    if step * batch_size > test_len:
+        break
     data = next(test_iter)
     X = data["encoded_image"].to(device)
     y = data["label"].to(device)
