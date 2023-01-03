@@ -1,4 +1,6 @@
-Contains experiments conducted and experimental code for MSc dissertation "On the Merits of Biologically Plausible Neural Nets".
+Contains experiments conducted and experimental code for MSc dissertation "On the Merits of Biologically Plausible Neural Nets". 
+
+The related dissertation can be found [here](https://drive.google.com/file/d/1hu9wUpOGIm3C7kF09NI2Xcs1CPpDC8DM/view?usp=sharing).
 
 `/basic-cnn-conversion`: first experiment for CNN-SNN conversion on MNIST using [SNN Toolbox](https://github.com/NeuromorphicProcessorProject/snn_toolbox) & Keras
 
